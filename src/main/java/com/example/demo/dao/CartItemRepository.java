@@ -1,0 +1,12 @@
+package com.example.demo.dao;
+
+import com.example.demo.entity.CartItem;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+/**
+ * CartItemRepository
+ */
+public interface CartItemRepository extends JpaRepository<CartItem,Integer>{
+   
+}
