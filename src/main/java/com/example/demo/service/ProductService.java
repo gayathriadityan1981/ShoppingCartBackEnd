@@ -32,9 +32,7 @@ public class ProductService{
         Product product=null;
        
 		product=productRepository.findById(id).orElse(null);
-		System.out.println("-----------service----------------"+id);
-        System.out.println("-----------service----------------"+product.getName());
-        return product;
+	   return product;
 	}
 
 	

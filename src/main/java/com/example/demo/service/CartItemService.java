@@ -3,7 +3,9 @@ package com.example.demo.service;
 import java.util.List;
 import java.io.*;
 import com.example.demo.dao.CartItemRepository;
+import com.example.demo.dao.CustomerOrderRepository;
 import com.example.demo.entity.CartItem;
+import com.example.demo.entity.CustomerOrder;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +14,9 @@ public class CartItemService{
 
     @Autowired
 	CartItemRepository cartItemRepository;
+
+	@Autowired
+	CustomerOrderRepository customerOrderRepository;
   
 	public List<CartItem> findAll(){
 		return cartItemRepository.findAll();
@@ -34,5 +39,7 @@ public class CartItemService{
         return cartItem;
 	}
 
-	
+	public CustomerOrder saveCustomerOrder(CustomerOrder customerOrder){
+		return customerOrderRepository.saveAndFlush(customerOrder);
+	}
     }

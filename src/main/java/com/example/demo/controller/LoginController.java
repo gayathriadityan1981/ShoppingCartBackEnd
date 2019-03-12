@@ -7,7 +7,7 @@ import java.security.Principal;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.apache.catalina.User;
+import com.example.demo.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,10 +31,16 @@ class LoginController{
 
 
 	@RequestMapping(value="/login", method = RequestMethod.POST)
-    public  String login(@RequestBody User user)
+    public ResponseEntity<User> login(@RequestBody User user)
     {    
-		String result=userService.isValidUser(user.getUsername(),user.getPassword());
-		System.out.println("username-------"+user.getPassword());
-        return result;
+		boolean result=userService.isValidUser(user.getUsername(),user.getPassword());
+      
+        if (!result) {
+            System.out.println("username-------"+user.getPassword());
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+        System.out.println("username-------"+result);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+        
     }
 }

@@ -12,6 +12,7 @@ public  class User {
     private String address1;
     private String address2;
 	private String city;
+	public User(){}
 	public String getAddress1(){
         return address1;
     }

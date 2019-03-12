@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +22,9 @@ public class Customer{
 	private String lastName;
 	private String customerPhone;
 	private String shippingAddress;
-
+	private String gender;
+	private String city;
+	private String state;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "userId")
@@ -33,6 +35,28 @@ public class Customer{
 	@JsonIgnore
 	private Cart cart;
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	public Cart getCart() {
 		return cart;

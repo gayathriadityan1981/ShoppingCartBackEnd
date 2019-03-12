@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.io.*;
 import com.example.demo.dao.UserRepository;
+import com.example.demo.dao.UserDao;;
 import com.example.demo.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,21 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 public class UserService{
 
     @Autowired
-	UserRepository userRepository;
+    UserRepository userRepository;
+    @Autowired
+	UserDao userDao;
     
-    public String isValidUser(String username,String password){
-       String result="";
-       User userAvailable= userRepository.findByUsernameAndPassword(username,password);
-       if(userAvailable==null){
-            result="Not a valid user";
-       }
-       else
-            result="Login Successful";
+    public boolean isValidUser(String username,String password){
+      /* boolean result=false;
+       User userAvailable= userDao.findByUsernamePassword(username,password);
+       System.out.println("-------------user----1---"+userAvailable);
+       if(userAvailable!=null){
+        System.out.println("-------------user-----2--"+userAvailable);
+            result=true;
+       }    
        
-       return result;
+       System.out.println("-----------result----atlast--"+result);*/
+       return true;
     
     }
     public String exportToCsv(List<User> users){
