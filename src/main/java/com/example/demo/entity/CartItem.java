@@ -1,6 +1,6 @@
 package com.example.demo.entity;
 
-import com.example.demo.entity.Product;
+import com.example.demo.entity.Product.Product;
 import javax.persistence.*;
 @Entity
 public class CartItem{
@@ -9,7 +9,7 @@ public class CartItem{
 	private int cartItemId ;
 
     private int quantity;
-    private double price;
+    private double subTotal;
 
     @ManyToOne
     @JoinColumn(name="productId")
@@ -41,10 +41,10 @@ public class CartItem{
     public int getQuantity(){
         return quantity;
     }
-    public void setPrice(double price){
-        this.price=price;
+    public void setSubTotal(double subTotal){
+        this.subTotal=subTotal;
     }
-    public double getPrice(){
-        return price;
+    public double getSubTotal(){
+        return subTotal;
     }
 }

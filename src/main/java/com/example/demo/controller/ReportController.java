@@ -2,10 +2,9 @@ package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.demo.dao.UserDao;
 import com.example.demo.dao.UserRepository;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.User;
 import com.example.demo.service.UserService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;

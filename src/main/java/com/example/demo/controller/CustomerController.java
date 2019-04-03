@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.dao.CustomerRepository;
+import com.example.demo.entity.State;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.CustomerOrder;
+import com.example.demo.entity.order.Order;
 import com.example.demo.service.CustomerService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +40,10 @@ class CustomerController{
       
     }
     @RequestMapping(value="/orders/{id}")
-    public CustomerOrder getCustomerOrder(@PathVariable("id") int id)
+    public Order getCustomerOrder(@PathVariable("id") int id)
     {
        System.out.println("-----------orders url is hit-------");
-       CustomerOrder custOrders=customerService.findOrdersByCustomerId(id);
+       Order custOrders=customerService.findOrdersByCustomerId(id);
        return custOrders;
       
     }
@@ -56,16 +57,23 @@ class CustomerController{
       
     }
     
-    @RequestMapping(value="/deleteCustomer/{id}",method = {RequestMethod.GET, RequestMethod.PUT})
-    public  void delCustomer(@PathVariable("id") int id)
+    @RequestMapping(value="/deleteCustomer/{customerId}",method = {RequestMethod.GET, RequestMethod.PUT})
+    public  void delCustomer(@PathVariable("customerId") int customerId)
     {
-      customerService.deleteById(id);
+      customerService.deleteById(customerId);
     }
     @RequestMapping(value="/saveCustomer", method = RequestMethod.POST)
-    public  String saveCustomer(@RequestBody Customer customer)
+    public  Customer saveCustomer(@RequestBody Customer customer)
     {    
-      customerService.save(customer);
-      return "success";
+      Customer cust=null;
+      try{
+         
+      cust=customerService.save(customer);
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }
+      return cust;
     }
     /*
     @RequestMapping(value="/editCustomer", method = RequestMethod.POST)
@@ -81,4 +89,12 @@ class CustomerController{
         customerRepository.save(cust);
         return "success";
     }*/
+    //to fetch all states for states select box
+    @RequestMapping(value="/getAllStates")
+    public List<State> getAllStates()
+    {   
+       List<State> states=customerService.findAllStates();
+       System.out.println("-------------ctrller url is hit---getAllStates----"+states);
+       return states;
+    }
 }

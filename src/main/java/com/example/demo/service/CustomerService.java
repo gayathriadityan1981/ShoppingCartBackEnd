@@ -3,9 +3,11 @@ package com.example.demo.service;
 import java.util.List;
 import java.io.*;
 import com.example.demo.dao.CustomerRepository;
-import com.example.demo.dao.CustomerOrderRepository;
+import com.example.demo.dao.OrderRepository;
+import com.example.demo.dao.StateRepository;
 import com.example.demo.entity.Customer;
-import com.example.demo.entity.CustomerOrder;
+import com.example.demo.entity.State;
+import com.example.demo.entity.order.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,30 +18,39 @@ public class CustomerService{
 	CustomerRepository customerRepository;
     
     @Autowired
-	CustomerOrderRepository customerOrderRepository;
+	OrderRepository orderRepository;
+	
+	@Autowired
+	StateRepository stateRepository;
     
    public List<Customer> findAll(){
 		return customerRepository.findAll();
 	}
 	public Customer save(Customer customer) {
-		return customerRepository.saveAndFlush(customer);
+		Customer customr= customerRepository.saveAndFlush(customer);
+		return customr;
 	}
-	public void deleteById(int id) {
-		customerRepository.deleteById(id);
+	public void deleteById(int customerId) {
+		customerRepository.deleteById(customerId);
 	}
 	public Customer update(Customer customer) {
+
 		return customerRepository.save(customer);
 	}
 
-	public Customer findById(int id) {
+	public Customer findById(int customerId) {
         Customer cust=null;
-       	 cust=customerRepository.findById(id).orElse(null);
+       	 cust=customerRepository.findById(customerId).orElse(null);
         return cust;
 	}
 
-    public CustomerOrder findOrdersByCustomerId(int id){
-        CustomerOrder custOrders=customerOrderRepository.findOrdersByCustomerId(Long.parseLong(String.valueOf(id)));
+    public Order findOrdersByCustomerId(int customerId){
+		Order custOrders=null;
+    //    CustomerOrder custOrders=customerOrderRepository.findOrdersByCustomerId(Long.parseLong(String.valueOf(id)));
         return custOrders;
     }
 	
+	public List<State> findAllStates(){
+		return stateRepository.findAll();
+	}
     }

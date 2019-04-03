@@ -14,7 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
-import com.example.demo.entity.User;
+import com.example.demo.entity.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 @Repository
 @CrossOrigin(origins = "*")

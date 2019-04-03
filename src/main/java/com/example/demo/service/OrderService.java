@@ -2,8 +2,8 @@ package com.example.demo.service;
 
 import java.util.List;
 import java.io.*;
-import com.example.demo.dao.CustomerOrderRepository;
-import com.example.demo.entity.CustomerOrder;
+import com.example.demo.dao.OrderRepository;
+import com.example.demo.entity.order.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,24 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class OrderService{
 
     @Autowired
-	CustomerOrderRepository customerOrderRepository;
+	OrderRepository orderRepository;
     
-   public List<CustomerOrder> findAll(){
-		return customerOrderRepository.findAll();
+   public List<Order> findAll(){
+		return orderRepository.findAll();
 	}
-	public CustomerOrder save(CustomerOrder customerOrder) {
-		return customerOrderRepository.saveAndFlush(customerOrder);
+	public Order saveOrder(Order customerOrder) {
+		return orderRepository.saveAndFlush(customerOrder);
 	}
 	public void deleteById(int id) {
-		customerOrderRepository.deleteById(id);
+		orderRepository.deleteById(id);
 	}
-	public CustomerOrder update(CustomerOrder customerOrder) {
-		return customerOrderRepository.save(customerOrder);
+	public Order update(Order customerOrder) {
+		return orderRepository.save(customerOrder);
 	}
 
-	public CustomerOrder findById(int id) {
-        CustomerOrder order=null;
-       	order=customerOrderRepository.findById(id).orElse(null);
+	public Order findById(int id) {
+        Order order=null;
+       	order=orderRepository.findById(id).orElse(null);
         return order;
 	}
 

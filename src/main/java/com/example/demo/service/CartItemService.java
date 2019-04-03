@@ -3,12 +3,16 @@ package com.example.demo.service;
 import java.util.List;
 import java.io.*;
 import com.example.demo.dao.CartItemRepository;
-import com.example.demo.dao.CustomerOrderRepository;
+import com.example.demo.dao.OrderRepository;
 import com.example.demo.entity.CartItem;
-import com.example.demo.entity.CustomerOrder;
+import com.example.demo.entity.order.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 @Service
 public class CartItemService{
 
@@ -16,14 +20,18 @@ public class CartItemService{
 	CartItemRepository cartItemRepository;
 
 	@Autowired
-	CustomerOrderRepository customerOrderRepository;
+	OrderRepository orderRepository;
   
 	public List<CartItem> findAll(){
 		return cartItemRepository.findAll();
 	}
-	public CartItem save(CartItem cartItem) {
-		System.out.println("------service-------save cart item-----------"+cartItem);
-		return cartItemRepository.saveAndFlush(cartItem);
+	public List<CartItem> saveCartItem(List<CartItem> cartItems) {
+		System.out.println("------service-------save cart item-----------"+cartItems);
+	for(CartItem cartItem:cartItems)
+		{
+		 cartItemRepository.saveAndFlush(cartItem);
+		}
+		return cartItems;
 	}
 	public void deleteById(int id) {
 		cartItemRepository.deleteById(id);
@@ -39,7 +47,7 @@ public class CartItemService{
         return cartItem;
 	}
 
-	public CustomerOrder saveCustomerOrder(CustomerOrder customerOrder){
-		return customerOrderRepository.saveAndFlush(customerOrder);
+	public Order saveCustomerOrder(Order order){
+		return orderRepository.saveAndFlush(order);
 	}
     }

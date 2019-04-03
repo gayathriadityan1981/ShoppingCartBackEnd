@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.dao.ProductRepository;
-import com.example.demo.entity.Product;
+import com.example.demo.entity.Product.Product;
 import com.example.demo.service.ProductService;
 import com.example.demo.dao.CartRepository;
 import com.example.demo.entity.Cart;
@@ -12,7 +12,7 @@ import com.example.demo.service.CartService;
 import com.example.demo.service.OrderService;
 import com.example.demo.dao.CartItemRepository;
 import com.example.demo.entity.CartItem;
-import com.example.demo.entity.CustomerOrder;
+import com.example.demo.entity.order.Order;
 import com.example.demo.service.CartItemService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
-
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(value="/orders")
@@ -94,13 +98,21 @@ public class OrderController{
         cartItemService.deleteById(id);
       
     }
-    @RequestMapping(value="/saveCartItem", method = RequestMethod.POST)
-    public  int saveCartItem(@RequestBody CartItem cartItem)
+    @RequestMapping(value="/saveCartItems", method = RequestMethod.POST)
+    public  List<CartItem> saveCartItem(@RequestBody  List<CartItem> cartItems)
     {    
-       
-       CartItem cartItm= cartItemService.save(cartItem);
-       int id=cartItm.getCartItemId();
-       return id;
+        ObjectMapper mapper = new ObjectMapper();
+        List<CartItem> cartItems=null;
+        List<CartItem> cartItm=null;
+        try{      
+           // cartItems= mapper.readValue(json, new TypeReference<List<CartItem>>(){}); 
+            System.out.println("------cartItems------"+cartItems) ;
+            cartItm= cartItemService.saveCartItem(cartItems);  
+        }
+        catch(Exception ie){
+            ie.printStackTrace();
+        }
+       return cartItm;
     }
     @RequestMapping(value="/updateCartItem/{qty}/{id}", method = RequestMethod.POST)
     public  String updateCartItem(@PathVariable("qty") int qty,@PathVariable("id") int id )
@@ -109,7 +121,7 @@ public class OrderController{
         
         CartItem item=cartItmFromDb.get();
         item.setQuantity(qty);
-        item.setPrice(qty*item.getPrice()) ;
+        item.setSubTotal(qty*item.getSubTotal()) ;
         cartItemRepository.save(item);
         return "success";
     }
@@ -142,15 +154,15 @@ public class OrderController{
     }
     //Customer Order
     @RequestMapping(value="/getAllOrders")
-    public List<CustomerOrder> getAllOrders()
+    public List<Order> getAllOrders()
     {
        System.out.println("-------------ctrller url is hit-------");
-       List<CustomerOrder> orders=orderService.findAll();
+       List<Order> orders=orderService.findAll();
        return orders;
       
     }
     @RequestMapping(value="/orders/{id}")
-    public CustomerOrder getOrderByCustId(@PathVariable("id") int id)
+    public Order getOrderByCustId(@PathVariable("id") int id)
     {
        System.out.println("-----------orders url is hit-------");
        //CustomerOrder custOrders=orderService.findOrdersByCustomerId(id);
@@ -159,10 +171,10 @@ public class OrderController{
     }
 
     @RequestMapping(value="/{customerId}")
-    public CustomerOrder getOrderById(@PathVariable("customerOrderId") int customerOrderId)
+    public Order getOrderById(@PathVariable("customerOrderId") int customerOrderId)
     {
        System.out.println("-----------orders url is hit-------");
-       CustomerOrder cust=orderService.findById(customerOrderId);
+       Order cust=orderService.findById(customerOrderId);
        return cust;
       
     }
@@ -172,11 +184,11 @@ public class OrderController{
     {
         orderService.deleteById(id);
     }
-    @RequestMapping(value="/saveCustomerOrder", method = RequestMethod.POST)
-    public  CustomerOrder saveCustomerOrder(@RequestBody CustomerOrder customerOrder)
+    @RequestMapping(value="/saveOrder", method = RequestMethod.POST)
+    public  Order saveOrder(@RequestBody Order order)
     {    
        
-        CustomerOrder custOrder=null;//= orderService.saveCustomerOrder(customerOrder);
+        Order custOrder=orderService.saveOrder(order);
         return custOrder;
     }
 }

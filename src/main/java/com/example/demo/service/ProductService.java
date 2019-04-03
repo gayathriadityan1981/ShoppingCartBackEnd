@@ -3,7 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.io.*;
 import com.example.demo.dao.ProductRepository;
-import com.example.demo.entity.Product;
+import com.example.demo.entity.Product.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
